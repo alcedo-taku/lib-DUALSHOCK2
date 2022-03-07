@@ -43,14 +43,7 @@ void DUALSHOCK2::init(uint32_t timeout){
  * @param timeout SPI通信のtimeout
  */
 void DUALSHOCK2::update(uint32_t timeout){
-	HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_RESET);
-//	for (uint8_t i = 0; i < CMD::READ_DATA_EX.size(); i++) {
-//		HAL_SPI_TransmitReceive(hspi,(uint8_t*)&CMD::READ_DATA_EX[i], (uint8_t*)&receive_data_ex[i], sizeof(CMD::READ_DATA_EX[i]), timeout);
-//	}
-	for (uint8_t i = 0; i < CMD::READ_DATA_EXEX.size(); i++) {
-		HAL_SPI_TransmitReceive(hspi,(uint8_t*)&CMD::READ_DATA_EXEX[i], (uint8_t*)&receive_data[i], sizeof(CMD::READ_DATA_EXEX[i]), timeout);
-	}
-	HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_SET);
+	send_command(CMD::READ_DATA_EXEX, timeout);
 }
 
 
