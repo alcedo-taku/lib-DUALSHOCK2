@@ -50,4 +50,43 @@ public:
 	}
 };
 
+#define IS_ANALOG(x)       	(((x)[1] == 0x73)
+#define IS_DIGITAL(x)      	(((x)[1] == 0x41)
+#define IS_MODE_CHANGED(x)	(((x)[2] == 0x5A)
+
+#define ANALOG_RIGHT_X_STATE(x) ((x)[ 5])
+#define ANALOG_RIGHT_Y_STATE(x) ((x)[ 6])
+#define ANALOG_LEFT_X_STATE(x)  ((x)[ 7])
+#define ANALOG_LEFT_Y_STATE(x)  ((x)[ 8])
+#define ANALOG_RIGHT(x)			((x)[ 9])
+#define ANALOG_LEFT(x)			((x)[10])
+#define ANALOG_UP(x)			((x)[11])
+#define ANALOG_DOWN(x)			((x)[12])
+#define ANALOG_TRIANGLE(x)		((x)[13])
+#define ANALOG_CIRCLE(x)		((x)[14])
+#define ANALOG_CROSS(x)			((x)[15])
+#define ANALOG_SQUARE(x)		((x)[16])
+#define ANALOG_L1(x)			((x)[17])
+#define ANALOG_R1(x)			((x)[18])
+#define ANALOG_L2(x)			((x)[19])
+#define ANALOG_R2(x)			((x)[20])
+
+#define BTN_LEFT(x)        	(!((x)[3] & (1<<7)))
+#define BTN_DOWN(x)        	(!((x)[3] & (1<<6)))
+#define BTN_RIGHT(x)       	(!((x)[3] & (1<<5)))
+#define BTN_UP(x)          	(!((x)[3] & (1<<4)))
+#define BTN_START(x)       	(!((x)[3] & (1<<3)))
+#define BTN_STICK_RIGHT(x) 	(!((x)[3] & (1<<2)))
+#define BTN_STICK_LEFT(x)  	(!((x)[3] & (1<<1)))
+#define BTN_SELECT(x)      	(!((x)[3] & 1))
+
+#define BTN_SQUARE(x)      	(!((x)[4] & (1<<7)))
+#define BTN_CROSS(x)       	(!((x)[4] & (1<<6)))
+#define BTN_CIRCLE(x)		(!((x)[4] & (1<<5)))
+#define BTN_TRIANGLE(x)   	(!((x)[4] & (1<<4)))
+#define BTN_R1(x)          	(!((x)[4] & (1<<3)))
+#define BTN_L1(x)          	(!((x)[4] & (1<<2)))
+#define BTN_R2(x)          	(!((x)[4] & (1<<1)))
+#define BTN_L2(x)          	(!((x)[4] & 1))
+
 #endif /* DUALSHOCK2_HPP_ */
