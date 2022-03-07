@@ -16,6 +16,10 @@ DUALSHOCK2::DUALSHOCK2(
 {
 }
 
+/**
+ * 初期化関数
+ * @param timeout SPI通信のtimeout
+ */
 void DUALSHOCK2::init(uint32_t timeout){
 	HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_SET);
 	HAL_Delay(1);
@@ -39,7 +43,7 @@ void DUALSHOCK2::init(uint32_t timeout){
 }
 
 /**
- *
+ * コントローラのデータを更新する関数
  * @param timeout SPI通信のtimeout
  */
 void DUALSHOCK2::update(uint32_t timeout){
@@ -48,8 +52,8 @@ void DUALSHOCK2::update(uint32_t timeout){
 
 
 /**
- *
- * @return
+ * コントローラのデータを取得する関数
+ * @return コントローラのデータ
  */
 std::array<uint8_t, 9> DUALSHOCK2::get_data_ex(){
 	std::array<uint8_t, 9> tmp;
@@ -58,8 +62,8 @@ std::array<uint8_t, 9> DUALSHOCK2::get_data_ex(){
 }
 
 /**
- *
- * @return
+ * コントローラのデータを取得する関数
+ * @return コントローラのデータ
  */
 std::array<uint8_t,21> DUALSHOCK2::get_data_exex(){
 	return receive_data;

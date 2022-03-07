@@ -9,6 +9,9 @@
 #include "spi.h"
 #include <array>
 
+/**
+ * コマンドの存在する名前空間
+ */
 namespace CMD {
 	constexpr std::array<uint8_t,  5> READ_DATA 			= {0x01, 0x42, 0x00, 0x00, 0x00};
 	constexpr std::array<uint8_t,  9> READ_DATA_EX	    	= {0x01, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -23,10 +26,13 @@ namespace CMD {
 	constexpr std::array<uint8_t,  9> VIBRATION_ENABLE		= {0x01, 0x4D, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF};
 };
 
+/**
+ * DUALSHOCK2(SCPH10010) との通信するクラス
+ */
 class DUALSHOCK2 {
 private:
-	SPI_HandleTypeDef* hspi;
-	std::array<uint8_t, 21> receive_data;
+	SPI_HandleTypeDef* hspi;				//!< 使用するSPIのハンドル
+	std::array<uint8_t, 21> receive_data;	//!< コントローラからデータを受け取る変数
 public:
 	DUALSHOCK2(SPI_HandleTypeDef& hspi);
 	void init(uint32_t timeout);
@@ -35,10 +41,10 @@ public:
 	std::array<uint8_t, 21> get_data_exex();
 
 	/**
-	 *
-	 * @tparam T
-	 * @param command
-	 * @param timeout
+	 * コントローラにコマンドを送る関数
+	 * @tparam T コマンドの型 （ std::array の要素数が、コマンド毎に異なる）
+	 * @param command コマンド
+	 * @param timeout SPI通信のtimeout
 	 */
 	template <class T> void send_command(T command, uint32_t timeout){
 		HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_RESET);
