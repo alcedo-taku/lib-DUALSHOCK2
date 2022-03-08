@@ -32,9 +32,11 @@ namespace CMD {
 class DUALSHOCK2 {
 private:
 	SPI_HandleTypeDef* hspi;				//!< 使用するSPIのハンドル
+	GPIO_TypeDef* ss_port;					//!< SSピンとして設定したGPIOのPort
+	const uint16_t ss_pin;					//!< SSピンとして設定したGPIOのPin
 	std::array<uint8_t, 21> receive_data;	//!< コントローラからデータを受け取る変数
 public:
-	DUALSHOCK2(SPI_HandleTypeDef& hspi);
+	DUALSHOCK2(SPI_HandleTypeDef& hspi, GPIO_TypeDef *ss_port, uint16_t ss_pin);
 	void init(uint32_t timeout);
 	void update(uint32_t timeout);
 	std::array<uint8_t,  9> get_data_ex();
@@ -47,11 +49,12 @@ public:
 	 * @param timeout SPI通信のtimeout
 	 */
 	template <class T> void send_command(T command, uint32_t timeout){
-		HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_RESET);
+		// ↓ 各バイトは16μs以上時間を空けて送信しないといけないので、バイトごとに別々で送受信している
 		for (uint8_t i = 0; i < command.size(); i++) {
 			HAL_SPI_TransmitReceive(hspi,(uint8_t*)&command[i], (uint8_t*)&receive_data[i], sizeof(command[i]), timeout);
 		}
-		HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_SET);
 		HAL_Delay(1);
 	}
 };

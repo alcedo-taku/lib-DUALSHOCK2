@@ -7,12 +7,18 @@
 
 /**
  * コンストラクタ
- * @param hspi 使うSPIのハンドル
+ * @param hspi 使用するSPIのハンドル
+ * @param ss_port SSピンとして設定したGPIOのPort
+ * @param ss_pin SSピンとして設定したGPIOのPin
  */
 DUALSHOCK2::DUALSHOCK2(
-	SPI_HandleTypeDef& hspi
+	SPI_HandleTypeDef& hspi,
+	GPIO_TypeDef *ss_port,
+	uint16_t ss_pin
 ):
-	hspi(&hspi)
+	hspi(&hspi),
+	ss_port(ss_port),
+	ss_pin(ss_pin)
 {
 }
 
@@ -21,7 +27,7 @@ DUALSHOCK2::DUALSHOCK2(
  * @param timeout SPI通信のtimeout
  */
 void DUALSHOCK2::init(uint32_t timeout){
-	HAL_GPIO_WritePin(SPI_SS_GPIO_Port, SPI_SS_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_SET);
 	HAL_Delay(1);
 
 	send_command(CMD::READ_DATA_EX, timeout);
