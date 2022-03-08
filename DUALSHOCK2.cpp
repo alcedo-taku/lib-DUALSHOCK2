@@ -14,11 +14,13 @@
 DUALSHOCK2::DUALSHOCK2(
 	SPI_HandleTypeDef& hspi,
 	GPIO_TypeDef *ss_port,
-	uint16_t ss_pin
+	uint16_t ss_pin,
+	uint32_t timeout
 ):
 	hspi(&hspi),
 	ss_port(ss_port),
-	ss_pin(ss_pin)
+	ss_pin(ss_pin),
+	timeout(timeout)
 {
 }
 
@@ -26,7 +28,7 @@ DUALSHOCK2::DUALSHOCK2(
  * 初期化関数
  * @param timeout SPI通信のtimeout
  */
-void DUALSHOCK2::init(uint32_t timeout){
+void DUALSHOCK2::init(){
 	HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_SET);
 	HAL_Delay(1);
 
@@ -46,7 +48,7 @@ void DUALSHOCK2::init(uint32_t timeout){
 	send_command(CMD::PRES_TRANS_START, timeout);
 }
 
-void DUALSHOCK2::reset_stick(uint32_t timeout){
+void DUALSHOCK2::reset_stick(){
 	send_command(CMD::READ_DATA_EX, timeout);
 	std::copy(receive_data.begin()+5, receive_data.begin()+9, stick_offset.begin());
 }
@@ -56,7 +58,7 @@ void DUALSHOCK2::reset_stick(uint32_t timeout){
  * @param timeout SPI通信のtimeout
  * @param stk_0_range スティックの0の範囲を定義
  */
-void DUALSHOCK2::update(uint32_t timeout, uint8_t stk_0_range){
+void DUALSHOCK2::update(uint8_t stk_0_range){
 	// receive_data を更新
 	send_command(CMD::READ_DATA_EXEX, timeout);
 

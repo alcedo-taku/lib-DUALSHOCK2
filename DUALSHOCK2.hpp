@@ -34,14 +34,15 @@ private:
 	SPI_HandleTypeDef* hspi;							//!< 使用するSPIのハンドル
 	GPIO_TypeDef* ss_port;								//!< SSピンとして設定したGPIOのPort
 	const uint16_t ss_pin;								//!< SSピンとして設定したGPIOのPin
+	uint32_t timeout;									//!< SPI通信のtimeout
 	std::array<uint8_t, 21> receive_data;				//!< コントローラからデータを受け取る変数
 	std::array<int16_t, 4> stick_data;					//!< スティックの値
 	std::array<uint8_t, 4> stick_offset = {0,0,0,0};	//!< スティックのオフセット
 public:
-	DUALSHOCK2(SPI_HandleTypeDef& hspi, GPIO_TypeDef *ss_port, uint16_t ss_pin);
-	void init(uint32_t timeout);
-	void reset_stick(uint32_t timeout);
-	void update(uint32_t timeout, uint8_t stk_0_range);
+	DUALSHOCK2(SPI_HandleTypeDef& hspi, GPIO_TypeDef *ss_port, uint16_t ss_pin, uint32_t timeout);
+	void init();
+	void reset_stick();
+	void update(uint8_t stk_0_range);
 	std::array<uint8_t,  9> get_data_ex();
 	std::array<uint8_t, 21> get_data_exex();
 	std::array<int16_t,  4> get_stick_data();
