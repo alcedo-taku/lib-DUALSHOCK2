@@ -3,19 +3,19 @@
 DUALSHOCK2(SCPH10010) との通信用ライブラリ
 
 ## 回路
-- DAT(SPIのMISO)ピンは 1kΩ で 3.3V にプルアップする  
+- DAT(SPIのMISO)ピンは 1kΩ で 3.3V にプルアップする(マイコンのプルアップだと通信が安定しない)  
 
-| ピン番号 | ピン名  | 備考       |
-| ---- | ---- | -------- |
-| 1    | DAT  | SPIのMISO |
-| 2    | CMAD | SPIのMOSI |
-| 3    | ~7V  | 振動モータ電源  |
-| 4    | GND  | GND      |
-| 5    | 3.3V | IC電源     |
-| 6    | SEL  | SPIのSS   |
-| 7    | SCK  | SPIのCLK  |
-| 8    | NC   | なし       |
-| 9    | ACK  | アクノリッジ   |
+| ピン番号 | ピン名 | 備考           |
+| -------- | ------ | -------------- |
+| 1        | DAT    | SPIのMISO      |
+| 2        | CMAD   | SPIのMOSI      |
+| 3        | ~7V    | 振動モータ電源 |
+| 4        | GND    | GND            |
+| 5        | 3.3V   | IC電源         |
+| 6        | SEL    | SPIのSS        |
+| 7        | SCK    | SPIのCLK       |
+| 8        | NC     | なし           |
+| 9        | ACK    | アクノリッジ   |
 
 ## CubeMX
 ```yaml
