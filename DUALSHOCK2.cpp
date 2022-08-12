@@ -61,6 +61,10 @@ void DUALSHOCK2::reset_stick(){
 void DUALSHOCK2::update(uint8_t stk_0_range){
 	// receive_data を更新
 	send_command(CMD::READ_DATA_EXEX, timeout);
+	if(receive_data[1] == 65){ // 通信が失敗していたら
+		init();
+		send_command(CMD::READ_DATA_EXEX, timeout);
+	}
 
 	// スティックの値を更新
 	stick_data[0] =   (receive_data[5] - stick_offset[0] );
